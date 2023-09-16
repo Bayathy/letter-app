@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx --max-warnings 0",
     "format": "prettier --write src",
-    "fix": "pnpm format && pnpm lint --fix"
+    "fix": "pnpm format && eslint src --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
     "@types/node": "20.6.1",
