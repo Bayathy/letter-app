@@ -27,7 +27,7 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
-    "@bayathy/eslint-config": "^1.7.0",
+    "@bayathy/eslint-config": "^1.8.0",
     "@bayathy/eslint-config-react": "^1.4.0",
     "@bayathy/eslint-config-tailwindcss": "^1.4.0",
     "eslint-config-prettier": "^9.0.0",
