@@ -3,3 +3,6 @@ extends:
   - "@bayathy/eslint-config-react"
   - "@bayathy/eslint-config-tailwindcss"
   - "prettier"
+
+rules:
+  unicorn/consistent-function-scoping: off
