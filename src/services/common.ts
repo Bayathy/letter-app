@@ -2,8 +2,7 @@ import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-
-export const getTestRequest = async() => {
+export const getTestRequest = async () => {
   if (API_URL === undefined) {
     return;
   }
@@ -14,4 +13,4 @@ export const getTestRequest = async() => {
     console.log(`error: status code is ${res.status}`);
     return;
   }
-}
+};
