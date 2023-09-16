@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --max-warnings 0",
+    "format": "prettier --write src",
+    "fix": "npm run format && npm run lint --fix"
   },
   "dependencies": {
     "@types/node": "20.6.1",
