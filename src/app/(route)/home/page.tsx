@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { Editor } from "@/app/components/editor/editor";
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Letter App",
@@ -16,5 +18,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Home() {
-  return <></>;
+  return (
+    <main>
+      <Editor />
+    </main>
+  );
 }

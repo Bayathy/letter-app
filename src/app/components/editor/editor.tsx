@@ -185,7 +185,6 @@ export const Editor = () => {
     if (!canvas) return;
     const tempsignaturePad = new SignaturePad(canvas, {
       backgroundColor: "rgb(255, 255, 255)",
-      minDistance: 1,
     });
     setSignaturePad(tempsignaturePad);
   };
@@ -194,6 +193,19 @@ export const Editor = () => {
     if (!signaturePad) return;
     const data = signaturePad.toData();
     console.log(data);
+  };
+
+  const handleErase = () => {
+    if (!signaturePad) return;
+    signaturePad.compositeOperation = "destination-out";
+    signaturePad.minWidth = signaturePad.maxWidth = 10;
+  };
+
+  const handleDraw = () => {
+    if (!signaturePad) return;
+    signaturePad.compositeOperation = "source-over";
+    signaturePad.minWidth = 1;
+    signaturePad.maxWidth = 2;
   };
 
   const handleClear = () => {
@@ -230,11 +242,34 @@ export const Editor = () => {
   }, []);
 
   return (
-    <div id="signature-pad">
-      <canvas></canvas>
-      <button onClick={handleSave}>save</button>
-      <button onClick={handleClear}>clear</button>
-      {/* <button onClick={handlePush}>push</button> */}
+    <div className="grid w-full place-content-center gap-2" id="signature-pad">
+      <canvas className="w-full border border-black"></canvas>
+      <div className="flex gap-2">
+        <button
+          className={"rounded-xl bg-blue-400 px-4 py-2 text-white"}
+          onClick={handleSave}
+        >
+          save
+        </button>
+        <button
+          className={"rounded-xl bg-blue-400 px-4 py-2 text-white"}
+          onClick={handleClear}
+        >
+          clear
+        </button>
+        <button
+          className={"rounded-xl bg-blue-400 px-4 py-2 text-white"}
+          onClick={handleDraw}
+        >
+          draw
+        </button>
+        <button
+          className={"rounded-xl bg-blue-400 px-4 py-2 text-white"}
+          onClick={handleErase}
+        >
+          
+        </button>
+      </div>
     </div>
   );
 };
