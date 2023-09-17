@@ -191,6 +191,7 @@ export const ShareEditor = () => {
 
   // はじめに描画を発火
   useEffect(() => {
+    readyPad();
     const initShareEditor = async() => {
       // TODO: データの取得処理
 
@@ -259,11 +260,6 @@ export const ShareEditor = () => {
     //   });
     // });
   
-  useEffect(() => {
-    readyPad();
-  }, []);
-
-
   return (
     <div className="grid w-full place-content-center gap-2" id="signature-pad">
       <canvas className="w-full border border-black"></canvas>
