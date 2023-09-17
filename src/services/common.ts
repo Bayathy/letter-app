@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+export const API_URL = "https://m97ndvdju9.execute-api.ap-northeast-1.amazonaws.com";
 
 export const getTestRequest = async () => {
   if (API_URL === undefined) {
