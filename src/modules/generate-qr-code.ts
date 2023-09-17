@@ -22,17 +22,17 @@ export const generateQrCode = ({
     type: "canvas",
     data: url,
     qrOptions: {
-      errorCorrectionLevel: 'H'
+      errorCorrectionLevel: "H",
     },
     dotsOptions: {
       color: c,
-      type: "rounded"
+      type: "rounded",
     },
     imageOptions: {
       crossOrigin: "anonymous",
-      margin: margin
-    }
+      margin: margin,
+    },
   });
 
   return qrCode;
-}
+};
