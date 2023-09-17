@@ -177,45 +177,58 @@ const testArray: PointGroup[] = [
   },
 ];
 
+async function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export const ShareEditor = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [signaturePad, setSignaturePad] = useState<SignaturePad>();
 
   const readyPad = () => {
     if (!canvasRef.current) return;
-    const tempsignaturePad = new SignaturePad(canvasRef.current, {
+    const tempSignaturePad = new SignaturePad(canvasRef.current, {
       backgroundColor: "rgb(255, 255, 255)",
     });
-    setSignaturePad(tempsignaturePad);
+    setSignaturePad(tempSignaturePad);
   };
 
   // はじめに描画を発火
   useEffect(() => {
-    readyPad();
+    if(!signaturePad) readyPad();
+
     const initShareEditor = async() => {
       // TODO: データの取得処理
 
       draw()
     }
     initShareEditor();
-  }, []);
+  }, [signaturePad]);
   
-  const draw = () => {
+  const draw = async () => {
     if (!canvasRef.current) return;
-    let index = 0
+    if (!signaturePad) return 
 
-    const processValue = setInterval(() => {
-      if(index >= index) {
-        clearInterval(processValue)
+    // let beforeTime = 1_694_852_395_999;
+    for(let i = 0; i < testArray.length; i++) {
+      console.log("i")
+      const beforeStroke = signaturePad.toData();
+      const nowStroke = { ...testArray[i] }
+      nowStroke.points = []
+
+      for(let j = 0; j < testArray[i].points.length; j++) {
+        console.log("j")
+        nowStroke.points.push(testArray[i].points[j]);
+          signaturePad.fromData([
+            ...beforeStroke,
+            nowStroke
+        ] as PointGroup[])
+        await sleep(500)
       }
 
-      const value = testArray[index];
-      signaturePad?.fromData([
-        ...signaturePad.toData(),
-        value
-      ] as PointGroup[])
-      index++;
-    }, 1000)
+      // let betweenTime = elm.points[0].time - beforeTime;
+      // beforeTime = elm.points[0].time;
+    }
   };
 
 
@@ -262,7 +275,10 @@ export const ShareEditor = () => {
   
   return (
     <div className="grid w-full place-content-center gap-2" id="signature-pad">
-      <canvas className="w-full border border-black"></canvas>
+      <canvas
+        className="w-full border border-black"
+        ref={canvasRef}
+      ></canvas>
     </div>
   );
 };
