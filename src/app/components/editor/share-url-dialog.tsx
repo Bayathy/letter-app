@@ -16,7 +16,7 @@ export const ShareUrlDialog = ({letterId, setIsDialog}: {letterId: string, setIs
                 </button>
             </div>
             <div className="mt-4">
-                <p>{`https://letter-app-pi.vercel.app/share?letter_id=${letterId}`}</p>
+                <a href={`https://letter-app-pi.vercel.app/share?letter_id=${letterId}`}>{`https://letter-app-pi.vercel.app/share?letter_id=${letterId}`}</a>
             </div>
         </div>
     </div>
