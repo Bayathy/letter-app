@@ -55,13 +55,13 @@ export const Preview = () => {
       }
       <div className="my-4 flex justify-end gap-4 px-8">
         <button
-          className="rounded-lg bg-blue-400 px-4 py-2 text-white"
+          className="rounded-lg bg-blue-400 px-4 py-2 text-white hover:bg-blue-500"
           onClick={handleClear}
         >
           Clear
         </button>
         <button
-          className="rounded-lg bg-blue-400 px-4 py-2 text-white"
+          className="rounded-lg bg-blue-400 px-4 py-2 text-white hover:bg-blue-500"
           onClick={handleShare}
         >
           Share
