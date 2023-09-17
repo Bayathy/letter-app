@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { EraserIcon, FileIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import SignaturePad from "signature_pad";
 
 // const testArray = [
@@ -176,6 +177,7 @@ import SignaturePad from "signature_pad";
 // ];
 
 export const Editor = () => {
+  const [editMode, setEditMode] = useState<"draw" | "erase">("draw");
   const [signaturePad, setSignaturePad] = useState<SignaturePad>();
 
   const readyPad = () => {
@@ -183,9 +185,10 @@ export const Editor = () => {
     if (!wrapper) return;
     const canvas = wrapper.querySelector("canvas");
     if (!canvas) return;
+    canvas.width = 500;
+    canvas.height = 300;
     const tempsignaturePad = new SignaturePad(canvas, {
       backgroundColor: "rgb(255, 255, 255)",
-      minDistance: 1,
     });
     setSignaturePad(tempsignaturePad);
   };
@@ -196,9 +199,19 @@ export const Editor = () => {
     console.log(data);
   };
 
-  const handleClear = () => {
+  const handleErase = () => {
     if (!signaturePad) return;
-    signaturePad.clear();
+    signaturePad.compositeOperation = "destination-out";
+    signaturePad.minWidth = signaturePad.maxWidth = 10;
+    setEditMode("erase");
+  };
+
+  const handleDraw = () => {
+    if (!signaturePad) return;
+    signaturePad.compositeOperation = "source-over";
+    signaturePad.minWidth = 1;
+    signaturePad.maxWidth = 2;
+    setEditMode("draw");
   };
 
   // const handlePush = async () => {
@@ -230,11 +243,33 @@ export const Editor = () => {
   }, []);
 
   return (
-    <div id="signature-pad">
-      <canvas></canvas>
-      <button onClick={handleSave}>save</button>
-      <button onClick={handleClear}>clear</button>
-      {/* <button onClick={handlePush}>push</button> */}
+    <div className="grid w-full place-content-center gap-2" id="signature-pad">
+      <canvas className="w-full border border-black"></canvas>
+      <div className="flex justify-center gap-2">
+        <button
+          className={"rounded-xl bg-purple-500 px-4 py-2 text-white"}
+          onClick={handleSave}
+        >
+          <FileIcon />
+        </button>
+
+        <button
+          className={`rounded-xl ${
+            editMode === "draw" ? "bg-blue-500" : "bg-blue-400"
+          } px-4 py-2 text-white`}
+          onClick={handleDraw}
+        >
+          <Pencil1Icon />
+        </button>
+        <button
+          className={`rounded-xl ${
+            editMode === "erase" ? "bg-blue-500" : "bg-blue-400"
+          } px-4 py-2 text-white`}
+          onClick={handleErase}
+        >
+          <EraserIcon />
+        </button>
+      </div>
     </div>
   );
 };
