@@ -2,186 +2,20 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { useSearchParams } from "next/navigation";
 import SignaturePad from "signature_pad";
 
 import type { PointGroup } from "signature_pad";
 
-const testArray: PointGroup[] = [
-  {
-    penColor: "black",
-    dotSize: 0,
-    minWidth: 0.5,
-    maxWidth: 2.5,
-    velocityFilterWeight: 0.7,
-    compositeOperation: "source-over",
-    points: [
-      {
-        time: 1_694_852_395_999,
-        x: 45.333_335_876_464_844,
-        y: 92,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_396_060,
-        x: 66.666_671_752_929_69,
-        y: 92,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_396_076,
-        x: 81.333_335_876_464_84,
-        y: 92,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_396_093,
-        x: 110.666_671_752_929_69,
-        y: 92,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_396_109,
-        x: 136,
-        y: 92,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_396_125,
-        x: 152,
-        y: 93.333_335_876_464_84,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_396_143,
-        x: 172,
-        y: 94.666_671_752_929_69,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_396_159,
-        x: 186.666_671_752_929_7,
-        y: 94.666_671_752_929_69,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_396_176,
-        x: 208,
-        y: 94.666_671_752_929_69,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_396_192,
-        x: 216,
-        y: 94.666_671_752_929_69,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_396_226,
-        x: 221.333_343_505_859_38,
-        y: 94.666_671_752_929_69,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_396_277,
-        x: 226.666_671_752_929_7,
-        y: 93.333_335_876_464_84,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_396_333,
-        x: 232,
-        y: 92,
-        pressure: 1,
-      },
-    ],
-  },
-  {
-    penColor: "black",
-    dotSize: 0,
-    minWidth: 0.5,
-    maxWidth: 2.5,
-    velocityFilterWeight: 0.7,
-    compositeOperation: "source-over",
-    points: [
-      {
-        time: 1_694_852_413_568,
-        x: 298.666_687_011_718_75,
-        y: 37.333_335_876_464_844,
-        pressure: 1,
-      },
-    ],
-  },
-  {
-    penColor: "black",
-    dotSize: 0,
-    minWidth: 0.5,
-    maxWidth: 2.5,
-    velocityFilterWeight: 0.7,
-    compositeOperation: "source-over",
-    points: [
-      {
-        time: 1_694_852_414_550,
-        x: 256,
-        y: 45.333_335_876_464_844,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_414_592,
-        x: 256,
-        y: 50.666_667_938_232_42,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_414_626,
-        x: 256,
-        y: 65.333_335_876_464_84,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_414_643,
-        x: 258.666_687_011_718_75,
-        y: 74.666_671_752_929_69,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_414_660,
-        x: 260,
-        y: 90.666_671_752_929_69,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_414_677,
-        x: 262.666_687_011_718_75,
-        y: 108,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_414_694,
-        x: 265.333_343_505_859_4,
-        y: 132,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_414_710,
-        x: 268,
-        y: 145.333_343_505_859_38,
-        pressure: 1,
-      },
-      {
-        time: 1_694_852_414_744,
-        x: 269.333_343_505_859_4,
-        y: 153.333_343_505_859_38,
-        pressure: 1,
-      },
-    ],
-  },
-];
+import { getStrokesByID } from "@/services/stroke";
 
 async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export const ShareEditor = () => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("letter_id");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [signaturePad, setSignaturePad] = useState<SignaturePad>();
 
@@ -198,33 +32,35 @@ export const ShareEditor = () => {
     if(!signaturePad) readyPad();
 
     const initShareEditor = async() => {
-      // TODO: データの取得処理
-
-      draw()
+      if (id === null) return;
+      const strokes = await getStrokesByID(id);
+      console.log(strokes);
+      draw(strokes)
     }
     initShareEditor();
   }, [signaturePad]);
   
-  const draw = async () => {
+  const draw = async (strokes: PointGroup[]) => {
     if (!canvasRef.current) return;
     if (!signaturePad) return 
 
-    let beforeTime = 1_694_852_395_999;
-    for(let i = 0; i < testArray.length; i++) {
+    let beforeTime = strokes[0].points[0].time;
+    
+    for(const stroke of strokes) {
       const beforeStroke = signaturePad.toData();
-      const nowStroke = { ...testArray[i] }
+      const nowStroke = { ...stroke }
       nowStroke.points = []
 
-      for(let j = 0; j < testArray[i].points.length; j++) {
-        const waitTime = testArray[i].points[j].time - beforeTime
+      for(let j = 0; j < stroke.points.length; j++) {
+        const waitTime = stroke.points[j].time - beforeTime
         console.log(waitTime)
-        nowStroke.points.push(testArray[i].points[j]);
+        nowStroke.points.push(stroke.points[j]);
           signaturePad.fromData([
             ...beforeStroke,
             nowStroke
         ] as PointGroup[])
         await sleep(waitTime)
-        beforeTime = testArray[i].points[j].time
+        beforeTime = stroke.points[j].time
       }
     }
   };
