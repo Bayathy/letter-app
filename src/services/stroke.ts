@@ -18,14 +18,14 @@ export const getStrokesByID = async (uuid: string) => {
   }
 };
 
-export const postStroke = async(data: PointGroup[]) => {
+export const postStroke = async (data: PointGroup[]) => {
   if (STROKE_API_URL === undefined) {
     return;
   }
   const res = await axios.post(STROKE_API_URL, data, {
     headers: {
-      "Content-Type": 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   });
   if (res.status === 200) {
     return res.data;
@@ -33,4 +33,4 @@ export const postStroke = async(data: PointGroup[]) => {
     console.log(`error: status code is ${res.status}`);
     return;
   }
-}
+};
