@@ -91,6 +91,7 @@ export const Editor = () => {
 
   return (
     <div className="grid w-full place-content-center gap-2">
+      <p className="font-bold">入力欄</p>
       <canvas
         className="mx-auto rounded-lg border border-blue-400"
         ref={canvasRef}
@@ -123,14 +124,6 @@ export const Editor = () => {
       </div>
       <div className="flex justify-center gap-2">
         <button
-          className={"rounded-xl bg-purple-500 px-4 py-2 text-white"}
-          onClick={handleSave}
-          aria-label="保存"
-        >
-          <FileIcon />
-        </button>
-
-        <button
           className={`rounded-xl ${
             editMode === "draw" ? "bg-blue-500" : "bg-blue-400"
           } px-4 py-2 text-white`}
@@ -149,6 +142,13 @@ export const Editor = () => {
           <EraserIcon />
         </button>
         <button
+          className="rounded-xl bg-red-500 px-4 py-2 text-white"
+          onClick={handleClear}
+          aria-label="クリア"
+        >
+          <TrashIcon />
+        </button>
+        <button
           className="rounded-xl bg-purple-500 px-4 py-2 text-white"
           onClick={() =>
             setPreviewCanvasPlace({
@@ -161,11 +161,11 @@ export const Editor = () => {
           <TextAlignBottomIcon />
         </button>
         <button
-          className="rounded-xl bg-red-500 px-4 py-2 text-white"
-          onClick={handleClear}
-          aria-label="クリア"
+          className={"rounded-xl bg-purple-500 px-4 py-2 text-white"}
+          onClick={handleSave}
+          aria-label="保存"
         >
-          <TrashIcon />
+          <FileIcon />
         </button>
       </div>
     </div>

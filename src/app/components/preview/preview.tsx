@@ -49,6 +49,23 @@ export const Preview = () => {
 
   return (
     <div>
+      <div className="my-4 flex items-center justify-between gap-4 px-8">
+        <p className="font-bold">プレビュー</p>
+        <div className="flex gap-2">
+          <button
+            className="rounded-lg bg-blue-400 px-4 py-2 text-white"
+            onClick={handleClear}
+          >
+            Clear
+          </button>
+          <button
+            className="rounded-lg bg-blue-400 px-4 py-2 text-white"
+            onClick={handleShare}
+          >
+            Share
+          </button>
+        </div>
+
       {
         isDialog &&
         <ShareUrlDialog letterId={uuid} setIsDialog={setIsDialog} />
@@ -66,6 +83,7 @@ export const Preview = () => {
         >
           Share
         </button>
+
       </div>
       <canvas
         className="mx-auto rounded-lg border-2 border-gray-400"
