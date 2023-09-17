@@ -28,10 +28,9 @@ export const Editor = () => {
     setSignaturePad(tempsignaturePad);
   };
 
-  const handleSave = async() => {
+  const handleSave = async () => {
     if (!signaturePad) return;
     const data = signaturePad.toData();
-    console.log(data);
     await postStroke(data);
   };
 
@@ -131,4 +130,3 @@ export const Editor = () => {
     </div>
   );
 };
-
