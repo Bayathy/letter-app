@@ -7,6 +7,7 @@ import {
   EraserIcon,
   FileIcon,
   Pencil1Icon,
+  TrashIcon,
 } from "@radix-ui/react-icons";
 import * as Slider from "@radix-ui/react-slider";
 import SignaturePad from "signature_pad";
@@ -29,6 +30,11 @@ export const Editor = () => {
     if (!signaturePad) return;
     const data = signaturePad.toData();
     console.log(data);
+  };
+
+  const handleClear = () => {
+    if (!signaturePad) return;
+    signaturePad.clear();
   };
 
   const handleErase = () => {
@@ -88,6 +94,7 @@ export const Editor = () => {
         <button
           className={"rounded-xl bg-purple-500 px-4 py-2 text-white"}
           onClick={handleSave}
+          aria-label="保存"
         >
           <FileIcon />
         </button>
@@ -97,6 +104,7 @@ export const Editor = () => {
             editMode === "draw" ? "bg-blue-500" : "bg-blue-400"
           } px-4 py-2 text-white`}
           onClick={handleDraw}
+          aria-label="ペンモードに切り替え"
         >
           <Pencil1Icon />
         </button>
@@ -105,8 +113,16 @@ export const Editor = () => {
             editMode === "erase" ? "bg-blue-500" : "bg-blue-400"
           } px-4 py-2 text-white`}
           onClick={handleErase}
+          aria-label="消しゴムモードに切り替え"
         >
           <EraserIcon />
+        </button>
+        <button
+          className="rounded-xl bg-red-500 px-4 py-2 text-white"
+          onClick={handleClear}
+          aria-label="クリア"
+        >
+          <TrashIcon />
         </button>
       </div>
     </div>
