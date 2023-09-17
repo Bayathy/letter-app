@@ -7,18 +7,27 @@ import {
   EraserIcon,
   FileIcon,
   Pencil1Icon,
+  TextAlignBottomIcon,
   TrashIcon,
 } from "@radix-ui/react-icons";
 import * as Slider from "@radix-ui/react-slider";
+import { useAtom } from "jotai";
 import SignaturePad from "signature_pad";
 
-import { postStroke } from "@/services/stroke";
+import type { PointGroup } from "signature_pad";
+
+import { previewCanvasAtom } from "@/app/store/preview-store";
 
 export const Editor = () => {
   const [editMode, setEditMode] = useState<"draw" | "erase">("draw");
-  const [drawWidth, setDrawWidth] = useState<number>(1);
+  const [previewCanvasPlace, setPreviewCanvasPlace] = useState<{
+    horizontal: number;
+    vertical: number;
+  }>({ horizontal: 0, vertical: 0 });
+  const [drawWidth, setDrawWidth] = useState<number>(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [signaturePad, setSignaturePad] = useState<SignaturePad>();
+  const [previewSignaturePad] = useAtom(previewCanvasAtom);
 
   const readyPad = () => {
     if (!canvasRef.current) return;
@@ -28,11 +37,32 @@ export const Editor = () => {
     setSignaturePad(tempsignaturePad);
   };
 
-  const handleSave = async() => {
+  const handleSave = async () => {
     if (!signaturePad) return;
-    const data = signaturePad.toData();
-    console.log(data);
-    await postStroke(data);
+    const data = signaturePad.toData().map((pointGroup) => {
+      return {
+        ...pointGroup,
+        points: pointGroup.points.map((point) => {
+          return {
+            x: point.x * 0.3 + previewCanvasPlace.horizontal * 300 * 0.3,
+            y: point.y * 0.3 + previewCanvasPlace.vertical * 300 * 0.3,
+            time: point.time,
+          };
+        }),
+      };
+    });
+
+    setPreviewCanvasPlace({
+      horizontal: previewCanvasPlace.horizontal + 1,
+      vertical: previewCanvasPlace.vertical,
+    });
+
+    if (!previewSignaturePad) return;
+    previewSignaturePad.fromData([
+      ...previewSignaturePad.toData(),
+      ...(data as PointGroup[]),
+    ]);
+    signaturePad.clear();
   };
 
   const handleClear = () => {
@@ -62,12 +92,10 @@ export const Editor = () => {
   return (
     <div className="grid w-full place-content-center gap-2">
       <canvas
-        className="border border-black"
+        className="mx-auto rounded-lg border border-blue-400"
         ref={canvasRef}
-        width={
-          window.screen.width * 0.9 < 600 ? window.screen.width * 0.9 : 600
-        }
-        height={300}
+        width={window.screen.width * 0.9 < 768 ? 200 : 300}
+        height={window.screen.width * 0.9 < 768 ? 200 : 300}
       />
       <div className="flex items-center justify-center gap-2">
         <BorderWidthIcon />
@@ -121,6 +149,18 @@ export const Editor = () => {
           <EraserIcon />
         </button>
         <button
+          className="rounded-xl bg-purple-500 px-4 py-2 text-white"
+          onClick={() =>
+            setPreviewCanvasPlace({
+              horizontal: 0,
+              vertical: previewCanvasPlace.vertical + 1,
+            })
+          }
+          aria-label="改行"
+        >
+          <TextAlignBottomIcon />
+        </button>
+        <button
           className="rounded-xl bg-red-500 px-4 py-2 text-white"
           onClick={handleClear}
           aria-label="クリア"
@@ -131,4 +171,3 @@ export const Editor = () => {
     </div>
   );
 };
-
