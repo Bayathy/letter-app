@@ -17,7 +17,6 @@ import SignaturePad from "signature_pad";
 import type { PointGroup } from "signature_pad";
 
 import { previewCanvasAtom } from "@/app/store/preview-store";
-import { postStroke } from "@/services/stroke";
 
 export const Editor = () => {
   const [editMode, setEditMode] = useState<"draw" | "erase">("draw");
@@ -39,8 +38,6 @@ export const Editor = () => {
   };
 
   const handleSave = async () => {
-    console.log((window.screen.width * 0.9) / 300);
-
     if (!signaturePad) return;
     const data = signaturePad.toData().map((pointGroup) => {
       return {
@@ -66,8 +63,6 @@ export const Editor = () => {
       ...(data as PointGroup[]),
     ]);
     signaturePad.clear();
-
-    await postStroke(data as PointGroup[]);
   };
 
   const handleClear = () => {
@@ -97,7 +92,7 @@ export const Editor = () => {
   return (
     <div className="grid w-full place-content-center gap-2">
       <canvas
-        className="border border-black"
+        className="mx-auto rounded-lg border border-blue-400"
         ref={canvasRef}
         width={window.screen.width * 0.9 < 768 ? 200 : 300}
         height={window.screen.width * 0.9 < 768 ? 200 : 300}
