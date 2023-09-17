@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { EraserIcon, FileIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import SignaturePad from "signature_pad";
 
+import { postStroke } from "@/services/stroke";
+
 // const testArray = [
 //   {
 //     penColor: "black",
@@ -193,10 +195,11 @@ export const Editor = () => {
     setSignaturePad(tempsignaturePad);
   };
 
-  const handleSave = () => {
+  const handleSave = async() => {
     if (!signaturePad) return;
     const data = signaturePad.toData();
     console.log(data);
+    await postStroke(data);
   };
 
   const handleErase = () => {
