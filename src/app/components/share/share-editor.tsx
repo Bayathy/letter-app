@@ -209,69 +209,25 @@ export const ShareEditor = () => {
     if (!canvasRef.current) return;
     if (!signaturePad) return 
 
-    // let beforeTime = 1_694_852_395_999;
+    let beforeTime = 1_694_852_395_999;
     for(let i = 0; i < testArray.length; i++) {
-      console.log("i")
       const beforeStroke = signaturePad.toData();
       const nowStroke = { ...testArray[i] }
       nowStroke.points = []
 
       for(let j = 0; j < testArray[i].points.length; j++) {
-        console.log("j")
+        const waitTime = testArray[i].points[j].time - beforeTime
+        console.log(waitTime)
         nowStroke.points.push(testArray[i].points[j]);
           signaturePad.fromData([
             ...beforeStroke,
             nowStroke
         ] as PointGroup[])
-        await sleep(500)
+        await sleep(waitTime)
+        beforeTime = testArray[i].points[j].time
       }
-
-      // let betweenTime = elm.points[0].time - beforeTime;
-      // beforeTime = elm.points[0].time;
     }
   };
-
-
-
-    // {
-    // penColor: "black",
-    // dotSize: 0,
-    // minWidth: 0.5,
-    // maxWidth: 2.5,
-    // velocityFilterWeight: 0.7,
-    // compositeOperation: "source-over",
-    // points: [
-    //   {
-    //     time: 1_694_852_414_550,
-    //     x: 256,
-    //     y: 45.333_335_876_464_844,
-    //     pressure: 1,
-    //   },
-    // }
-
-
-
-    // let firstTime = testArray[0]["points"][0]["time"];
-    // const drawData: PointGroup[] = [];
-    // testArray.map((stroke, i) => {
-    //   const tmp = {
-    //     penColor: stroke.penColor,
-    //     dotSize: stroke.dotSize,
-    //     minWidth: stroke.minWidth,
-    //     maxWidth: stroke.maxWidth,
-    //     velocityFilterWeight: stroke.velocityFilterWeight,
-    //     compositeOperation: stroke.compositeOperation,
-    //     points: [],
-    //   };
-    //   drawData.push(tmp);
-    //   stroke["points"].map((point) => {
-      //     setInterval(() => {
-    //       drawData[i]["points"].push(point);
-    //       signaturePad?.fromData(drawData);
-    //     }, point["time"] - firstTime);
-    //     firstTime = point["time"];
-    //   });
-    // });
   
   return (
     <div className="grid w-full place-content-center gap-2" id="signature-pad">
