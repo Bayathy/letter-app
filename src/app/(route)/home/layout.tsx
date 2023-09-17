@@ -6,7 +6,10 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: "Letter App",
       description: "description",
-      url: "http://localhost:3000/home",
+      url:
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000/home"
+          : "https://letter-app-pi.vercel.app/home",
       siteName: "Letter App",
       images: [
         "https://2.bp.blogspot.com/-R2JBGJI7pDE/UOFKIQ9qwmI/AAAAAAAAKEQ/hg2dXiYebqk/w1200-h630-p-k-no-nu/bunbougu_memo.png",
