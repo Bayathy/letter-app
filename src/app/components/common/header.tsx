@@ -1,11 +1,11 @@
 const Header = () => {
   return (
-    <div className="h-12 flex items-center justify-between pl-6 bg-white border-b border-gray-200">
+    <header className="flex h-12 items-center justify-between border-b border-gray-200 bg-white pl-6">
       <button>
         <p className="text-xl font-bold">Letter App</p>
       </button>
-    </div>
+    </header>
   );
-}
+};
 
 export default Header;

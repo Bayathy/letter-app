@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -8,15 +8,13 @@ export async function generateMetadata(): Promise<Metadata> {
       description: "description",
       url: "http://localhost:3000/home",
       siteName: "Letter App",
-      images: ["https://2.bp.blogspot.com/-R2JBGJI7pDE/UOFKIQ9qwmI/AAAAAAAAKEQ/hg2dXiYebqk/w1200-h630-p-k-no-nu/bunbougu_memo.png"],
+      images: [
+        "https://2.bp.blogspot.com/-R2JBGJI7pDE/UOFKIQ9qwmI/AAAAAAAAKEQ/hg2dXiYebqk/w1200-h630-p-k-no-nu/bunbougu_memo.png",
+      ],
     },
-  }
+  };
 }
 
 export default function Home() {
-  return (
-    <main>
-      <p>hello world!!!</p>
-    </main>
-  );
+  return <></>;
 }
