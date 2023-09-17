@@ -1,16 +1,22 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useAtom } from "jotai";
 import SignaturePad from "signature_pad";
 
+import { ShareUrlDialog } from "../editor/share-url-dialog";
+
 import type { PointGroup } from "signature_pad";
+
 
 import { previewCanvasAtom } from "@/app/store/preview-store";
 import { postStroke } from "@/services/stroke";
 
+
 export const Preview = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [siganturePad, setSignaturePad] = useAtom(previewCanvasAtom);
+  const [isDialog, setIsDialog] = useState<boolean>(false);
+  const [uuid, setUUID] = useState<string>("");
 
   const readyPad = () => {
     if (!canvasRef.current) return;
@@ -31,7 +37,9 @@ export const Preview = () => {
   const handleShare = async () => {
     if (!canvasRef.current) return;
     const data = siganturePad?.toData();
-    await postStroke(data as PointGroup[]);
+    const res = await postStroke(data as PointGroup[]);
+    setUUID(res.letter_id)
+    setIsDialog(true);
   };
 
   useEffect(() => {
@@ -41,6 +49,10 @@ export const Preview = () => {
 
   return (
     <div>
+      {
+        isDialog &&
+        <ShareUrlDialog letterId={uuid} setIsDialog={setIsDialog} />
+      }
       <div className="my-4 flex justify-end gap-4 px-8">
         <button
           className="rounded-lg bg-blue-400 px-4 py-2 text-white"
