@@ -18,6 +18,15 @@ export const ShareUrlDialog = ({letterId, setIsDialog}: {letterId: string, setIs
             <div className="mt-4">
                 <a href={`https://letter-app-pi.vercel.app/share?letter_id=${letterId}`}>{`https://letter-app-pi.vercel.app/share?letter_id=${letterId}`}</a>
             </div>
+            <div className="mt-4">
+            <a
+  href={`https://social-plugins.line.me/lineit/share?url=https://letter-app-pi.vercel.app/share?letter_id=${letterId}`}
+  target="_blank"
+  rel="nofollow noopener noreferrer"
+  className="bg-green-300 p-2 rounded-md"
+  >LINEで送る</a>
+  
+            </div>
         </div>
     </div>
   );
