@@ -1,10 +1,8 @@
 import axios from "axios";
 
-import { API_URL } from "./common";
-
 import type { PointGroup } from "signature_pad";
 
-const STROKE_API_URL = `${API_URL}/letter`;
+const STROKE_API_URL = `${process.env.NEXT_PUBLIC_API_URL}/letter`;
 
 export const getStrokesByID = async (uuid: number) => {
   const url = `${STROKE_API_URL}/${uuid}`;
