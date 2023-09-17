@@ -234,7 +234,11 @@ export const ShareEditor = () => {
       <canvas
         className="w-full border border-black"
         ref={canvasRef}
-      ></canvas>
+        width={
+          window.screen.width * 0.9 < 600 ? window.screen.width * 0.9 : 600
+        }
+        height={300}
+      />
     </div>
   );
 };
