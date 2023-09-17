@@ -34,7 +34,6 @@ export const ShareEditor = () => {
     const initShareEditor = async() => {
       if (id === null) return;
       const strokes = await getStrokesByID(id);
-      console.log(strokes);
       draw(strokes)
     }
     initShareEditor();
@@ -53,7 +52,6 @@ export const ShareEditor = () => {
 
       for(let j = 0; j < stroke.points.length; j++) {
         const waitTime = stroke.points[j].time - beforeTime
-        console.log(waitTime)
         nowStroke.points.push(stroke.points[j]);
           signaturePad.fromData([
             ...beforeStroke,
