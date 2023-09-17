@@ -12,6 +12,8 @@ import {
 import * as Slider from "@radix-ui/react-slider";
 import SignaturePad from "signature_pad";
 
+import { postStroke } from "@/services/stroke";
+
 export const Editor = () => {
   const [editMode, setEditMode] = useState<"draw" | "erase">("draw");
   const [drawWidth, setDrawWidth] = useState<number>(1);
@@ -26,10 +28,11 @@ export const Editor = () => {
     setSignaturePad(tempsignaturePad);
   };
 
-  const handleSave = () => {
+  const handleSave = async() => {
     if (!signaturePad) return;
     const data = signaturePad.toData();
     console.log(data);
+    await postStroke(data);
   };
 
   const handleClear = () => {
