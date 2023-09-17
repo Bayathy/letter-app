@@ -2,10 +2,9 @@ import axios from "axios";
 
 import type { PointGroup } from "signature_pad";
 
-// TODO: API_URLの修正
 const STROKE_API_URL = `${process.env.NEXT_PUBLIC_API_URL}/letter`;
 
-export const getStrokesByID = async (uuid: number) => {
+export const getStrokesByID = async (uuid: string) => {
   const url = `${STROKE_API_URL}/${uuid}`;
   if (url === undefined) {
     return;
