@@ -189,9 +189,17 @@ export const ShareEditor = () => {
     setSignaturePad(tempsignaturePad);
   };
 
+  // はじめに描画を発火
+  useEffect(() => {
+    const initShareEditor = async() => {
+      // TODO: データの取得処理
+
+      draw()
+    }
+    initShareEditor();
+  }, []);
   
   const draw = () => {
-    
     if (!canvasRef.current) return;
     let index = 0
 
