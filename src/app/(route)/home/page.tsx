@@ -1,21 +1,5 @@
-import type { Metadata } from "next";
-
-import { Editor } from "@/app/components/editor/editor";
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: "Letter App",
-    openGraph: {
-      title: "Letter App",
-      description: "description",
-      url: "http://localhost:3000/home",
-      siteName: "Letter App",
-      images: [
-        "https://2.bp.blogspot.com/-R2JBGJI7pDE/UOFKIQ9qwmI/AAAAAAAAKEQ/hg2dXiYebqk/w1200-h630-p-k-no-nu/bunbougu_memo.png",
-      ],
-    },
-  };
-}
+"use client";
+import { Editor } from "@/app/components/editor";
 
 export default function Home() {
   return (
