@@ -46,38 +46,25 @@ export const Preview = () => {
   }, []);
 
   return (
-    <div className="my-4 flex items-center justify-between gap-4 px-8">
-      <p className="font-bold">プレビュー</p>
-      <div className="flex gap-2">
-        <button
-          className="rounded-lg bg-blue-400 px-4 py-2 text-white"
-          onClick={handleClear}
-        >
-          Clear
-        </button>
-        <button
-          className="rounded-lg bg-blue-400 px-4 py-2 text-white"
-          onClick={handleShare}
-        >
-          Share
-        </button>
+    <div className="flex flex-col">
+      <div className="my-4 flex items-center justify-between gap-4 px-8">
+        <p className="font-bold">プレビュー</p>
+        <div className="flex gap-2">
+          <button
+            className="rounded-lg bg-blue-400 px-4 py-2 text-white"
+            onClick={handleClear}
+          >
+            Clear
+          </button>
+          <button
+            className="rounded-lg bg-blue-400 px-4 py-2 text-white"
+            onClick={handleShare}
+          >
+            Share
+          </button>
+        </div>
       </div>
-
       {isDialog && <ShareUrlDialog letterId={uuid} setIsDialog={setIsDialog} />}
-      <div className="my-4 flex justify-end gap-4 px-8">
-        <button
-          className="rounded-lg bg-blue-400 px-4 py-2 text-white hover:bg-blue-500"
-          onClick={handleClear}
-        >
-          Clear
-        </button>
-        <button
-          className="rounded-lg bg-blue-400 px-4 py-2 text-white hover:bg-blue-500"
-          onClick={handleShare}
-        >
-          Share
-        </button>
-      </div>
       <canvas
         className="mx-auto rounded-lg border-2 border-gray-400"
         width={window.screen.width * 0.9}
